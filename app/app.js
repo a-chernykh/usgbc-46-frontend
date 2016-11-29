@@ -20,13 +20,23 @@ config(['$locationProvider', '$routeProvider', function($locationProvider, $rout
 }]).
 
 controller('AppCtrl', ['$scope', 'currentUserService', '$location', function($scope, currentUserService, $location) {
-  $scope.currentUser = function() { return currentUserService.get(); }
+  $scope.currentUser = function() { return currentUserService.isLogged(); }
 }]).
 
 factory('currentUserService', function() {
   var currentUser = null;
+  var logged = false;
+
   function set(data) {
     currentUser = data;
+    if (currentUser) {
+      logged = true;
+    } else {
+      logged = false;
+    }
+  }
+  function isLogged() {
+    return logged;
   }
   function get() {
     if (currentUser) {
@@ -52,6 +62,7 @@ factory('currentUserService', function() {
 
   return {
     set: set,
-    get: get
+    get: get,
+    isLogged: isLogged
   }
 });

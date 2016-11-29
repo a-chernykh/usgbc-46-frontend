@@ -8,7 +8,7 @@
         <th>Score</th>
       </thead>
       <tbody>
-        <tr ng-repeat='score in scores'>
+        <tr ng-repeat='score in scores' ng-class='rowClass(score.zip_code)'>
           <td>{{ score.rank }}</td>
           <td>{{ score.zip_code }}</td>
           <td>{{ score.score }}</td>
