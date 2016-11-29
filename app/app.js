@@ -8,6 +8,7 @@ angular.module('myApp', [
   'myApp.signup',
   'myApp.confirm',
   'myApp.signin',
+  'myApp.signout',
   'myApp.version',
   'ngMap'
 ]).
@@ -16,6 +17,20 @@ config(['$locationProvider', '$routeProvider', function($locationProvider, $rout
   $locationProvider.hashPrefix('!');
 
   $routeProvider.otherwise({redirectTo: '/signin'});
+}]).
+
+controller('AppCtrl', ['$scope', 'currentUserService', '$location', function($scope, currentUserService, $location) {
+  $scope.currentUser = currentUserService.get();
+  $scope.signOut = function() {
+    console.log('blah');
+    var user = cognitoUserService.get();
+
+    user.signOut();
+    cognitoUserService.set(null);
+
+    $location.path('/signin');
+    $scope.$apply();
+  }
 }]).
 
 factory('currentUserService', function() {
