@@ -10,5 +10,10 @@ angular.module('myApp.signout', ['ngRoute'])
 }])
 
 .controller('SignoutCtrl', ['$scope', 'currentUserService', '$location', function($scope, currentUserService, $location) {
-  console.log('blah');
+  var user = currentUserService.get();
+
+  user.signOut();
+  currentUserService.set(null);
+
+  $location.path('/signin');
 }]);

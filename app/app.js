@@ -20,17 +20,7 @@ config(['$locationProvider', '$routeProvider', function($locationProvider, $rout
 }]).
 
 controller('AppCtrl', ['$scope', 'currentUserService', '$location', function($scope, currentUserService, $location) {
-  $scope.currentUser = currentUserService.get();
-  $scope.signOut = function() {
-    console.log('blah');
-    var user = cognitoUserService.get();
-
-    user.signOut();
-    cognitoUserService.set(null);
-
-    $location.path('/signin');
-    $scope.$apply();
-  }
+  $scope.currentUser = function() { return currentUserService.get(); }
 }]).
 
 factory('currentUserService', function() {
