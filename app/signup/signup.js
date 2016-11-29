@@ -9,7 +9,7 @@ angular.module('myApp.signup', ['ngRoute'])
   });
 }])
 
-.controller('SignupCtrl', ['$scope', function($scope) {
+.controller('SignupCtrl', ['$scope', '$location', 'currentUserService', function($scope, $location, currentUserService) {
   $scope.signup = function() {
     AWSCognito.config.region = 'us-west-2'; //This is required to derive the endpoint
 
@@ -40,8 +40,14 @@ angular.module('myApp.signup', ['ngRoute'])
             return;
         }
         console.log(result);
-        cognitoUser = result.user;
+        var cognitoUser = result.user;
         console.log('user name is ' + cognitoUser.getUsername());
+        currentUserService.set(cognitoUser);
+
+        if (!result.userConfirmed) {
+					$location.path('/confirm');
+          $scope.$apply();
+        }
     });
   }
 }]);
