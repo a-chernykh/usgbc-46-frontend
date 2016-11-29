@@ -21,23 +21,24 @@ config(['$locationProvider', '$routeProvider', function($locationProvider, $rout
 }]).
 
 controller('AppCtrl', ['$scope', 'currentUserService', '$location', function($scope, currentUserService, $location) {
-  $scope.currentUser = currentUserService.get();
-  $scope.signOut = function() {
-    console.log('blah');
-    var user = cognitoUserService.get();
-
-    user.signOut();
-    cognitoUserService.set(null);
-
-    $location.path('/signin');
-    $scope.$apply();
-  }
+  currentUserService.get();
+  $scope.currentUser = function() { return currentUserService.isLogged(); }
 }]).
 
 factory('currentUserService', function() {
   var currentUser = null;
+  var logged = false;
+
   function set(data) {
     currentUser = data;
+    if (currentUser) {
+      logged = true;
+    } else {
+      logged = false;
+    }
+  }
+  function isLogged() {
+    return logged;
   }
   function get() {
     if (currentUser) {
@@ -55,6 +56,9 @@ factory('currentUserService', function() {
             return;
           }
           console.log('session validity: ' + session.isValid());
+          if (session.isValid()) {
+            logged = true;
+          }
         });
       }
       return cognitoUser;
@@ -63,6 +67,7 @@ factory('currentUserService', function() {
 
   return {
     set: set,
-    get: get
+    get: get,
+    isLogged: isLogged
   }
 });

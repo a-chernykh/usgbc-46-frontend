@@ -27,3 +27,8 @@
 .main-content {
   padding-top: 60px;
 }
+
+tr.current {
+  background-color: #9d9d9d !important;
+  font-weight: bold;
+}

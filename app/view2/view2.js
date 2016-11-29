@@ -12,6 +12,7 @@ angular.module('myApp.view2', ['ngRoute'])
 .controller('View2Ctrl', ['$scope', 'currentUserService', '$http', function($scope, currentUserService, $http) {
   var user = currentUserService.get();
   var zipCode;
+
   if (user) {
     user.getUserAttributes(function(err, result) {
       if (err) {
@@ -31,6 +32,10 @@ angular.module('myApp.view2', ['ngRoute'])
 	   });
     });
   }
+
+  $scope.rowClass = function (zip) {
+    if (zip == zipCode) { return 'current'; }
+  };
 /*
   $scope.scores = [
     { 'zip_code': '94040', 'score': 20, 'rank': 1 },
