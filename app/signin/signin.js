@@ -9,7 +9,7 @@ angular.module('myApp.signin', ['ngRoute'])
   });
 }])
 
-.controller('SigninCtrl', ['$scope', function($scope) {
+.controller('SigninCtrl', ['$scope', 'currentUserService', '$location', function($scope, currentUserService, $location) {
   $scope.signin = function() {
     var authenticationData = {
         Username : $scope.email,
@@ -30,6 +30,9 @@ angular.module('myApp.signin', ['ngRoute'])
             console.log('access token + ' + result.getAccessToken().getJwtToken());
             /*Use the idToken for Logins Map when Federating User Pools with Cognito Identity or when passing through an Authorization Header to an API Gateway Authorizer*/
             console.log('idToken + ' + result.idToken.jwtToken);
+            currentUserService.set(cognitoUser);
+            $location.path('/leaderboard');
+            $scope.$apply();
         },
 
         onFailure: function(err) {

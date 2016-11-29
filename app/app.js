@@ -11,6 +11,7 @@ angular.module('myApp', [
   'myApp.version',
   'ngMap'
 ]).
+
 config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
   $locationProvider.hashPrefix('!');
 
@@ -23,7 +24,25 @@ factory('currentUserService', function() {
     currentUser = data;
   }
   function get() {
-    return currentUser;
+    if (currentUser) {
+      return currentUser;
+    } else {
+      var data = { UserPoolId : 'us-west-2_jgBW5EV5h',
+        ClientId : '6bs2n2qs29hile7l41oqspsltd'
+      };
+      var userPool = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserPool(data);
+      var cognitoUser = userPool.getCurrentUser();
+      if (cognitoUser) {
+        cognitoUser.getSession(function(err, session) {
+          if (err) {
+            alert(err);
+            return;
+          }
+          console.log('session validity: ' + session.isValid());
+        });
+      }
+      return cognitoUser;
+    }
   }
 
   return {
