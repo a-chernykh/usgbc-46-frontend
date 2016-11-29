@@ -20,6 +20,7 @@ config(['$locationProvider', '$routeProvider', function($locationProvider, $rout
 }]).
 
 controller('AppCtrl', ['$scope', 'currentUserService', '$location', function($scope, currentUserService, $location) {
+  currentUserService.get();
   $scope.currentUser = function() { return currentUserService.isLogged(); }
 }]).
 
@@ -54,6 +55,9 @@ factory('currentUserService', function() {
             return;
           }
           console.log('session validity: ' + session.isValid());
+          if (session.isValid()) {
+            logged = true;
+          }
         });
       }
       return cognitoUser;
