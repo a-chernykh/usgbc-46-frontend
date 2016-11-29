@@ -26,7 +26,7 @@ angular.module('myApp.view2', ['ngRoute'])
         }
       }
       console.log(zipCode);
-      $http.get("https://h5c128n3tb.execute-api.us-west-2.amazonaws.com/dev/leaderboard?zipcode=" + zipCode + "&Test=2")
+      $http.get("https://h5c128n3tb.execute-api.us-west-2.amazonaws.com/dev/leaderboard?zipcode=" + zipCode)
 	   .then(function (response) {
 	   	$scope.scores = response.data.scores;
 	   });
