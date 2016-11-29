@@ -9,7 +9,7 @@ angular.module('myApp.view2', ['ngRoute'])
   });
 }])
 
-.controller('View2Ctrl', ['$scope', 'currentUserService', function($scope, currentUserService) {
+.controller('View2Ctrl', ['$scope', 'currentUserService', '$http', function($scope, currentUserService, $http) {
   var user = currentUserService.get();
   var zipCode;
   if (user) {
@@ -24,14 +24,18 @@ angular.module('myApp.view2', ['ngRoute'])
           break;
         }
       }
-
       console.log(zipCode);
+      $http.get("https://h5c128n3tb.execute-api.us-west-2.amazonaws.com/dev/leaderboard?zipcode=" + zipCode + "&Test=2")
+	   .then(function (response) {
+	   	$scope.scores = response.data.scores;
+	   });
     });
   }
-
+/*
   $scope.scores = [
     { 'zip_code': '94040', 'score': 20, 'rank': 1 },
     { 'zip_code': '94050', 'score': 10, 'rank': 2 },
     { 'zip_code': '94060', 'score': 5,  'rank': 3 },
   ];
+*/
 }]);
