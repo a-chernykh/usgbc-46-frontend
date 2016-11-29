@@ -19,7 +19,7 @@ angular.module('myApp.view1', ['ngRoute'])
       if (zipCode) {
         url = "https://h5c128n3tb.execute-api.us-west-2.amazonaws.com/dev/leaderboard?zipcode=" + zipCode;
       } else {
-        url = "https://h5c128n3tb.execute-api.us-west-2.amazonaws.com/dev/leaderboard?Lat=" + center.lat() + "&Long=" + center.lng() + "&Zoom=" + map.getZoom();
+        url = "https://h5c128n3tb.execute-api.us-west-2.amazonaws.com/dev/leaderboard?Lat=" + center.lng() + "&Long=" + center.lat() + "&Zoom=" + map.getZoom();
       }
 
       $http.get(url)
@@ -32,7 +32,7 @@ angular.module('myApp.view1', ['ngRoute'])
 
           for (var i=0; i < scores.length; i++) {
             var score = scores[i];
-            heatMapData.push({location: new google.maps.LatLng(score.coordinates.lon, score.coordinates.lat), weight: score.score});
+            heatMapData.push({location: new google.maps.LatLng(score.coordinates.lon, score.coordinates.lat), weight: 100 - score.score});
             console.log(score.coordinates);
             if (zipCode == score.zip_code) {
               map.setCenter(new google.maps.LatLng(scores[0].coordinates.lon, scores[0].coordinates.lat));
